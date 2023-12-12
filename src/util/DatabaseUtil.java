@@ -11,8 +11,11 @@ public class DatabaseUtil {
 
     private static Connection connection = null;
 
-    public static Connection getConnection() {
-        if (connection != null) {
+
+
+    public static Connection getConnection() throws SQLException {
+        System.out.println("getting called");
+        if (connection != null && !connection.isClosed()) {
             return connection;
         } else {
             try (InputStream input = DatabaseUtil.class.getResourceAsStream("/resources/db.properties")) {
