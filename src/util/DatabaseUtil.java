@@ -1,8 +1,10 @@
-package util;// DatabaseUtil.java
+package util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseUtil {
@@ -17,19 +19,35 @@ public class DatabaseUtil {
                 if (input == null) {
                     throw new RuntimeException("db.properties not found");
                 }
+
                 Properties prop = new Properties();
                 prop.load(input);
-                connection = DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.user"), prop.getProperty("db.password"));
-                Statement st = connection.createStatement();
+
+                connection = DriverManager.getConnection(
+                        prop.getProperty("db.url"),
+                        prop.getProperty("db.user"),
+                        prop.getProperty("db.password"));
 
             } catch (IOException | SQLException e) {
+                // Log the exception or throw a custom exception
                 e.printStackTrace();
+                throw new RuntimeException("Failed to connect to the database");
             }
             return connection;
         }
     }
 
-    public static void main(String[] args) {
-        DatabaseUtil.getConnection();
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                // Log the exception or throw a custom exception
+                e.printStackTrace();
+            } finally {
+                connection = null;
+            }
+        }
     }
+
 }
