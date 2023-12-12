@@ -6,7 +6,10 @@ public class Main {
 
         c.createBookTable();
 
-        c.seedData();
+//        c.seedData();
+// i have seeded the data data is stored in tables so need to call seeder file again
+// if i uncomment it i need to avoid adding duplicate data otherwise it will lead to errors
+        c.executeQueries();
 
     }
 }

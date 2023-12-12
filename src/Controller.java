@@ -112,4 +112,25 @@ public class Controller {
         }
     }
 
+
+    public void executeQueries() {
+        try {
+            BookDao.printBookInfoByTitle("High Intensity Training");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BookDao.printBookInfoByTitle("High Intensity ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BookDao.printAuthorByBookTitle("High Intensity Training");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
