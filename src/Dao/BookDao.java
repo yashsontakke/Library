@@ -91,6 +91,138 @@ public class BookDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printAllBooks() {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("All Books:");
+                    do {
+                        // Print book information directly
+                        System.out.println("Title: " + resultSet.getString("title") +
+                                ", Author ID: " + resultSet.getInt("authorId") +
+                                ", Price: $" + resultSet.getInt("price"));
+                    } while (resultSet.next());
+                } else {
+                    System.out.println("No books found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printAllBooksSortedByTitle() {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book ORDER BY title";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("All Books Sorted by Title:");
+                    do {
+                        // Print book information directly
+                        System.out.println("Title: " + resultSet.getString("title") +
+                                ", Author ID: " + resultSet.getInt("authorId") +
+                                ", Price: $" + resultSet.getInt("price"));
+                    } while (resultSet.next());
+                } else {
+                    System.out.println("No books found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printBooksStartingWithS() {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book WHERE title LIKE 's%'";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    System.out.println("Books Starting with 's':");
+                    do {
+                        // Print book information directly
+                        System.out.println("Title: " + resultSet.getString("title") +
+                                ", Author ID: " + resultSet.getInt("authorId") +
+                                ", Price: $" + resultSet.getInt("price"));
+                    } while (resultSet.next());
+                } else {
+                    System.out.println("No books found starting with 's'.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printBookWithHighestPrice() {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book ORDER BY price DESC LIMIT 1";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Print book information directly
+                    System.out.println("Book with Highest Price:");
+                    System.out.println("Title: " + resultSet.getString("title") +
+                            ", Author ID: " + resultSet.getInt("authorId") +
+                            ", Price: $" + resultSet.getInt("price"));
+                } else {
+                    System.out.println("No books found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printBookWithLongestTitle() {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book ORDER BY LENGTH(title) DESC LIMIT 1";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Print book information directly
+                    System.out.println("Book with Longest Title:");
+                    System.out.println("Title: " + resultSet.getString("title") +
+                            ", Author ID: " + resultSet.getInt("authorId") +
+                            ", Price: $" + resultSet.getInt("price"));
+                } else {
+                    System.out.println("No books found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    public static void printBooksByAuthorName(String authorName) {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book WHERE authorId IN (SELECT id FROM Author WHERE name = ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+                preparedStatement.setString(1, authorName);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        System.out.println("Books by Author '" + authorName + "':");
+                        do {
+                            // Print book information directly
+                            System.out.println("Title: " + resultSet.getString("title") +
+                                    ", Author ID: " + resultSet.getInt("authorId") +
+                                    ", Price: $" + resultSet.getInt("price"));
+                        } while (resultSet.next());
+                    } else {
+                        System.out.println("No books found by Author '" + authorName + "'.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

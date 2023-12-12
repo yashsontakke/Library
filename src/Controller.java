@@ -125,9 +125,18 @@ public class Controller {
         BookDao.printAuthorByBookTitle("High Intensity Training");
 
 
+        int maxPrice = 50;
+        int minPrice = 500;
+        BookDao.printBooksByPriceRange(minPrice, maxPrice);
 
-        BookDao.printBooksByPriceRange(50, 500);
-
+        BookDao.printAllBooks();
+        BookDao.printAllBooksSortedByTitle();
+        BookDao.printBooksStartingWithS();
+        BookDao.printBookWithHighestPrice();
+        BookDao.printBookWithLongestTitle();
+        String authorName = "Mike Mentzer";
+        BookDao.printBooksByAuthorName(authorName);
+        AuthorDao.printAuthorWithMostBooks();
 
     }
 }
