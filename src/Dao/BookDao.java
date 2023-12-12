@@ -27,7 +27,7 @@ public class BookDao {
         }
     }
 
-    public static void printBookInfoByTitle(String title) throws SQLException {
+    public static void printBookInfoByTitle(String title) {
         try (Connection conn = DatabaseUtil.getConnection()) {
             String query = "SELECT * FROM Book WHERE title = ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -44,9 +44,11 @@ public class BookDao {
                     }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
-    public static void printAuthorByBookTitle(String title) throws SQLException {
+    public static void printAuthorByBookTitle(String title) {
         try (Connection conn = DatabaseUtil.getConnection()) {
             String query = "SELECT A.* FROM Author A JOIN Book B ON A.authorId = B.authorId WHERE B.title = ?";
             try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -63,9 +65,32 @@ public class BookDao {
                     }
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw e;
+        }
+    }
+    public static void printBooksByPriceRange(int minPrice, int maxPrice)  {
+        try (Connection conn = DatabaseUtil.getConnection()) {
+            String query = "SELECT * FROM Book WHERE price BETWEEN ? AND ?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+                preparedStatement.setInt(1, minPrice);
+                preparedStatement.setInt(2, maxPrice);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        System.out.println("Books with price between $" + minPrice + " and $" + maxPrice + ":");
+                        do {
+                            // Print book information directly
+                            System.out.println("Title: " + resultSet.getString("title") +
+                                    ", Author ID: " + resultSet.getInt("authorId") +
+                                    ", Price: $" + resultSet.getInt("price"));
+                        } while (resultSet.next());
+                    } else {
+                        System.out.println("No books found within the specified price range.");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

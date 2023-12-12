@@ -114,23 +114,20 @@ public class Controller {
 
 
     public void executeQueries() {
-        try {
-            BookDao.printBookInfoByTitle("High Intensity Training");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            BookDao.printBookInfoByTitle("High Intensity ");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        BookDao.printBookInfoByTitle("High Intensity Training");
 
-        try {
-            BookDao.printAuthorByBookTitle("High Intensity Training");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        BookDao.printBookInfoByTitle("High Intensity ");
+
+
+
+        BookDao.printAuthorByBookTitle("High Intensity Training");
+
+
+
+        BookDao.printBooksByPriceRange(50, 500);
+
 
     }
 }

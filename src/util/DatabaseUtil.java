@@ -14,7 +14,7 @@ public class DatabaseUtil {
 
 
     public static Connection getConnection() throws SQLException {
-        System.out.println("getting called");
+//        System.out.println("getting called");
         if (connection != null && !connection.isClosed()) {
             return connection;
         } else {
